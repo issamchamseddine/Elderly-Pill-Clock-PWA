@@ -520,74 +520,84 @@ body {
    Landscape / Tablet View
    ===================================================================== */
 @media (orientation: landscape) {
-  /* Make the clock massive and spread things out horizontally */
+  /* Reset the bottom padding so we can use Flexbox */
   #clockScreen {
-    padding-bottom: 20px; /* Reset bottom padding */
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    grid-template-columns: 1fr;
+    padding: 16px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    justify-items: center;
-    padding: 24px 48px;
   }
 
   /* Group date and phase at the top */
   .date-line {
-    font-size: clamp(1.2rem, 3vw, 2.2rem);
-    margin-bottom: 4px;
+    font-size: clamp(1rem, 2.5vw, 1.8rem);
+    margin-bottom: 2px;
   }
 
   .phase-label {
-    font-size: clamp(3rem, 8vw, 7rem);
+    font-size: clamp(2rem, 5vw, 4.5rem);
     margin-bottom: 0;
+    line-height: 1;
   }
 
-  /* Make the clock take as much vertical room as possible */
+  /* Make the clock huge but safe for short landscape screens */
   .clock-time {
-    font-size: clamp(8rem, 32vh, 25rem); /* Uses viewport height to scale */
+    font-size: clamp(5rem, 28vh, 14rem);
     line-height: 0.9;
-    margin: 0;
+    margin: 4px 0;
   }
 
-  /* Move the next pill line to the bottom, just above the meals */
+  /* Next pill pill-shaped badge */
   .next-pill {
-    position: static; /* Remove fixed positioning */
+    position: static;
     transform: none;
-    margin: 10px auto 20px auto;
-    bottom: auto;
-    font-size: clamp(1.2rem, 2.5vw, 2rem);
+    margin: 0 0 12px 0;
+    font-size: clamp(1rem, 2.2vw, 1.5rem);
+    padding: 6px 18px;
   }
 
-  /* Spread the meal section wider */
+  /* Meal section moves to normal flow at the bottom of the flex container */
   .meal-section {
     position: static;
     width: 100%;
-    max-width: 900px; /* Wider on tablets */
+    max-width: 900px;
     margin: 0 auto;
     padding: 0;
   }
 
   .meal-row {
     max-width: 100%;
-    gap: 16px;
+    gap: 12px;
   }
 
   .meal-btn {
-    min-height: 90px;
-    flex-direction: row; /* Put emoji and text side-by-side in landscape */
-    gap: 12px;
-    padding: 16px;
+    min-height: 64px;
+    flex-direction: row;
+    gap: 10px;
+    padding: 12px;
   }
 
-  .meal-emoji { font-size: 2rem; }
-  .meal-name { font-size: 1.4rem; }
+  .meal-emoji { font-size: 1.6rem; }
+  .meal-name { font-size: 1.2rem; }
   
   .meal-hint-bar {
     max-width: 100%;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
+    padding: 4px 12px;
   }
 
   .meal-feedback {
-    bottom: 130px;
+    bottom: 90px;
   }
+}
+
+/* Extra safety for very short landscape screens (phones in landscape) */
+@media (orientation: landscape) and (max-height: 450px) {
+  .clock-time { font-size: clamp(4rem, 22vh, 8rem); }
+  .phase-label { font-size: clamp(1.5rem, 4vw, 2.5rem); }
+  .meal-btn { min-height: 50px; padding: 8px; }
+  .meal-emoji { font-size: 1.3rem; }
+  .meal-name { font-size: 1rem; }
+  .next-pill { margin-bottom: 8px; font-size: 0.9rem; }
 }
