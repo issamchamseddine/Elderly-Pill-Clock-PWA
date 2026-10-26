@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0a0f1f" />
+  <meta name="description" content="ساعة كبيرة مع تذكير بمواعيد الدواء لكبار السن" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="ساعة الدواء" />
+  <title>ساعة الدواء</title>
+
+  <!-- Cairo font — clearer Arabic numerals and better readability -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="./icon.svg" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+
+  <!-- SCREEN 1 : SETUP -->
+  <section id="setupScreen" class="screen">
+    <div class="setup-card">
+      <h1 class="setup-title">💊 ساعة الدواء</h1>
+      <p class="setup-sub">اضبط مواعيد الدواء</p>
+
+      <div class="field">
+        <span class="field-label">الأدوية</span>
+        <div id="timesList" class="times-list"></div>
+        <button type="button" id="addTimeBtn" class="btn btn-ghost">＋ إضافة دواء</button>
+      </div>
+
+      <p id="setupError" class="error hidden"></p>
+
+      <button type="button" id="saveBtn" class="btn btn-primary">حفظ وبدء الساعة</button>
+      <button type="button" id="backBtn" class="btn btn-ghost hidden">رجوع بدون حفظ</button>
+    </div>
+  </section>
+
+  <!-- SCREEN 2 : CLOCK -->
+  <section id="clockScreen" class="screen hidden">
+    <div id="dateLine" class="date-line"></div>
+    <div id="phaseLabel" class="phase-label"></div>
+    <div id="clockTime" class="clock-time">--:--</div>
+
+    <div id="nextPill" class="next-pill"></div>
+
+    <div id="mealSection" class="meal-section">
+      <div class="meal-hint-bar">
+        <span id="mealHintText">🍽️ اضغط عند بدء الوجبة</span>
+      </div>
+      <div id="mealRow" class="meal-row">
+        <button type="button" class="meal-btn" data-meal="breakfast">
+          <span class="meal-emoji">🌅</span>
+          <span class="meal-name">فطور</span>
+          <span class="meal-check" aria-hidden="true">✓</span>
+        </button>
+        <button type="button" class="meal-btn" data-meal="lunch">
+          <span class="meal-emoji">☀️</span>
+          <span class="meal-name">غداء</span>
+          <span class="meal-check" aria-hidden="true">✓</span>
+        </button>
+        <button type="button" class="meal-btn" data-meal="dinner">
+          <span class="meal-emoji">🌙</span>
+          <span class="meal-name">عشاء</span>
+          <span class="meal-check" aria-hidden="true">✓</span>
+        </button>
+        <button type="button" class="meal-btn" data-meal="bed">
+          <span class="meal-emoji">🛏️</span>
+          <span class="meal-name">نوم</span>
+          <span class="meal-check" aria-hidden="true">✓</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="mealFeedback" class="meal-feedback hidden">
+      <span id="mealFeedbackText"></span>
+      <button type="button" id="mealUndoBtn" class="meal-undo-btn hidden">✕ إلغاء</button>
+    </div>
+
+    <div id="pressBar" class="press-bar"></div>
+  </section>
+
+  <!-- ALERT OVERLAY -->
+  <div id="alertOverlay" class="overlay hidden" role="alertdialog" aria-modal="true" aria-labelledby="alertTitle">
+    <div class="alert-card">
+      <div class="alert-icon">💊</div>
+      <h2 id="alertTitle" class="alert-title">حان وقت الدواء</h2>
+      <div id="alertTime" class="alert-time"></div>
+      <div id="alertLabel" class="alert-label"></div>
+      <button type="button" id="dismissAlertBtn" class="btn btn-primary">تم ✓</button>
+    </div>
+  </div>
+
+  <!-- ADMIN OVERLAY -->
+  <div id="adminMenu" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
+    <div class="admin-card">
+      <h2 id="adminTitle" class="admin-title">🔧 قائمة المشرف</h2>
+      <button type="button" class="btn btn-ghost" data-action="settings">⚙️ الإعدادات</button>
+      <button type="button" class="btn btn-ghost" data-action="resync">🔄 إعادة ضبط جرعات اليوم</button>
+      <button type="button" class="btn btn-ghost" data-action="resetmeals">🍽️ حذف سجل وجبات اليوم</button>
+      <button type="button" class="btn btn-ghost" data-action="help">📖 دليل الاستخدام</button>
+      <button type="button" class="btn btn-ghost" data-action="close">✖ إغلاق</button>
+      <p id="adminStatus" class="admin-status"></p>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

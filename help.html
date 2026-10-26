@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>دليل الاستخدام — ساعة الدواء</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0f1f;
+      --fg: #eef2ff;
+      --muted: #9aa4c4;
+      --accent: #5b8dff;
+      --card: #141a33;
+      --border: #232b4d;
+      --highlight: #1f2a4a;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Tahoma, sans-serif;
+      line-height: 1.8;
+      padding: 32px 20px;
+      min-height: 100vh;
+    }
+
+    .wrap { max-width: 780px; margin: 0 auto; }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .back-btn, .print-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .print-btn {
+      background: transparent;
+      border: 2px solid var(--border);
+      color: var(--fg);
+    }
+
+    h1 { font-size: 2.2rem; margin-bottom: 6px; color: var(--fg); }
+    .subtitle { color: var(--muted); margin-bottom: 32px; font-size: 1.05rem; }
+
+    h2 {
+      font-size: 1.6rem;
+      margin-top: 40px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border);
+      color: var(--accent);
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      margin-top: 24px;
+      margin-bottom: 12px;
+      color: var(--fg);
+    }
+
+    p { margin-bottom: 14px; font-size: 1.08rem; }
+    ul, ol { margin: 0 24px 16px 0; padding: 0; }
+    li { margin-bottom: 8px; font-size: 1.08rem; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 22px;
+      margin: 16px 0;
+    }
+
+    .example {
+      background: var(--highlight);
+      border-right: 4px solid var(--accent);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 14px 0;
+      font-size: 1.05rem;
+    }
+
+    .example strong { color: var(--accent); }
+
+    .meal-buttons-demo {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin: 16px 0;
+    }
+
+    .meal-btn-demo {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-size: 1.05rem;
+      color: var(--fg);
+    }
+
+    .faq-q {
+      font-weight: 700;
+      color: var(--accent);
+      margin-top: 18px;
+      margin-bottom: 4px;
+      font-size: 1.1rem;
+    }
+
+    .faq-a { margin-bottom: 14px; font-size: 1.05rem; }
+
+    code {
+      background: var(--card);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      font-size: 0.95rem;
+      direction: ltr;
+      unicode-bidi: embed;
+      display: inline-block;
+    }
+
+    hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+    .toc {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 24px;
+      margin-bottom: 32px;
+    }
+
+    .toc h2 { margin-top: 0; font-size: 1.3rem; border: none; padding: 0; }
+    .toc ol { margin: 12px 24px 0 0; }
+    .toc a { color: var(--fg); text-decoration: none; border-bottom: 1px dotted var(--muted); }
+    .toc a:hover { color: var(--accent); }
+
+    .note {
+      background: rgba(91, 141, 255, 0.12);
+      border-right: 4px solid var(--accent);
+      padding: 12px 18px;
+      border-radius: 8px;
+      margin: 16px 0;
+      font-size: 1.02rem;
+      color: var(--fg);
+    }
+
+    @media print {
+      body { background: #fff; color: #111; padding: 0; font-size: 12pt; line-height: 1.6; }
+      .toolbar { display: none; }
+      h1 { color: #111; font-size: 22pt; }
+      h2 { color: #1a3a8f; font-size: 16pt; border-bottom: 2px solid #1a3a8f; page-break-after: avoid; }
+      h3 { color: #111; font-size: 13pt; page-break-after: avoid; }
+      p, li { color: #222; font-size: 11.5pt; }
+      .subtitle { color: #555; }
+      .card, .example, .toc {
+        background: #f5f7fb;
+        border: 1px solid #c8d0e0;
+        color: #111;
+        page-break-inside: avoid;
+      }
+      .example strong { color: #1a3a8f; }
+      .note { background: #eaf0ff; border-right: 4px solid #1a3a8f; color: #111; }
+      .faq-q { color: #1a3a8f; }
+      code { background: #eef0f5; color: #111; border: 1px solid #d0d5e0; }
+      .meal-btn-demo { background: #f5f7fb; color: #111; border: 1px solid #c8d0e0; }
+      a { color: #1a3a8f; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="toolbar">
+      <button class="back-btn" onclick="history.length > 1 ? history.back() : window.close()">← رجوع</button>
+      <button class="print-btn" onclick="window.print()">🖨️ طباعة / حفظ كـ PDF</button>
+    </div>
+
+    <h1>📖 دليل الاستخدام</h1>
+    <p class="subtitle">ساعة الدواء — تطبيق تذكير لمواعيد الدواء لكبار السن ومريض الزهايمر</p>
+
+    <div class="toc">
+      <h2>المحتويات</h2>
+      <ol>
+        <li><a href="#what">ما هي هذه الساعة؟</a></li>
+        <li><a href="#setup">أول مرة تُشغّل التطبيق</a></li>
+        <li><a href="#main">الشاشة الرئيسية (الساعة)</a></li>
+        <li><a href="#meals">أزرار الوجبات</a></li>
+        <li><a href="#alert">تنبيه الدواء</a></li>
+        <li><a href="#admin">القائمة المخفية (قائمة المشرف)</a></li>
+        <li><a href="#tips">نصائح للاستخدام اليومي</a></li>
+        <li><a href="#example">إعداد دواء جديد — خطوة بخطوة</a></li>
+        <li><a href="#faq">الأسئلة الشائعة</a></li>
+      </ol>
+    </div>
+
+    <h2 id="what">١ — ما هي هذه الساعة؟</h2>
+    <p>ساعة كبيرة تُعرض على شاشة الجهاز، تُذكّر مريض الزهايمر بمواعيد أدويته.</p>
+    <p>تتغيّر ألوان الشاشة حسب وقت اليوم، ويظهر اسم الوقت بخطٍ كبير — <strong>صباحاً، ظهراً، بعد الظهر، مساءً، ليلاً</strong> — حتى يعرف المريض أي جزء من اليوم هو فيه، حتى لو استيقظ من قيلولة.</p>
+
+    <h2 id="setup">٢ — أول مرة تُشغّل التطبيق</h2>
+    <p>تظهر شاشة الإعداد. فيها خطوتان:</p>
+
+    <h3>الخطوة ١: إضافة الأدوية</h3>
+    <p>اضغط <strong>"＋ إضافة دواء"</strong> لإضافة دواء جديد. لكل دواء تختار:</p>
+    <ul>
+      <li><strong>اسم الدواء</strong> (إلزامي) — مثل: "حبة الضغط"، "حبة السكر".</li>
+      <li><strong>نوع الموعد</strong> — إما:
+        <ul>
+          <li><strong>موعد محدد</strong> — وقت ثابت، مثل الساعة ٨:٠٠ صباحاً.</li>
+          <li><strong>قبل / بعد الفطور، الغداء، العشاء، أو قبل النوم</strong> — يعتمد على وقت الحدث، لا على الساعة.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>الخطوة ٢: إعداد الأدوية المرتبطة بالوجبات</h3>
+    <p>إذا اخترت نوعاً مرتبطاً بوجبة (مثل "بعد الغداء")، سيطلب منك التطبيق:</p>
+    <ul>
+      <li><strong>وقت التأخير</strong> — بعد كم دقيقة من الوجبة يجب أخذ الدواء؟ (افتراضي: ٣٠ دقيقة)</li>
+      <li><strong>الوقت الاحتياطي</strong> — إذا لم يضغط أحد على زر الوجبة، في أي ساعة يجب أخذ الدواء كحلٍّ أخير؟ (مثال: ٢:٠٠ بعد الظهر)</li>
+    </ul>
+
+    <div class="example">
+      <strong>مثال عملي:</strong><br />
+      الدواء: "حبة السكر"<br />
+      النوع: بعد الغداء<br />
+      التأخير: ٣٠ دقيقة<br />
+      الوقت الاحتياطي: ٢:٠٠ بعد الظهر<br /><br />
+      <strong>الترجمة:</strong> إذا ضغط أحد زر "غداء" في الساعة ١:٣٠ بعد الظهر، يظهر تنبيه الدواء في الساعة ٢:٠٠. وإذا لم يضغط أحد، يظهر التنبيه أيضاً في الساعة ٢:٠٠ كحلٍّ احتياطي.
+    </div>
+
+    <h3>الخطوة ٣: اضغط "حفظ وبدء الساعة"</h3>
+    <p>تُحفظ كل الإعدادات على الجهاز نفسه، ولا تُرسل إلى أي مكان.</p>
+
+    <h2 id="main">٣ — الشاشة الرئيسية (الساعة)</h2>
+    <p>تظهر ساعة كبيرة. تحت الساعة:</p>
+    <ul>
+      <li><strong>اسم اليوم والتاريخ</strong> بالعربية.</li>
+      <li><strong>اسم الوقت</strong> بخط كبير — صباحاً، ظهراً، بعد الظهر، مساءً، ليلاً.</li>
+      <li><strong>الساعة</strong> بالخط الكبير.</li>
+      <li><strong>الدواء القادم</strong> — نص يخبر المريض باسم الدواء القادم ووقته.</li>
+    </ul>
+
+    <h2 id="meals">٤ — أزرار الوجبات</h2>
+    <p>في أسفل الشاشة أربعة أزرار كبيرة:</p>
+
+    <div class="meal-buttons-demo">
+      <span class="meal-btn-demo">🌅 فطور</span>
+      <span class="meal-btn-demo">☀️ غداء</span>
+      <span class="meal-btn-demo">🌙 عشاء</span>
+      <span class="meal-btn-demo">🛏️ نوم</span>
+    </div>
+
+    <p><strong>استخدامها:</strong> عند بدء الوجبة، اضغط الزر المناسب. هذا يُخبر التطبيق أن الوجبة بدأت الآن.</p>
+
+    <h3>ماذا يحدث بعد الضغط؟</h3>
+    <ul>
+      <li>تظهر رسالة تأكيد خضراء لثلاث ثوانٍ: "✅ تم تسجيل الفطور".</li>
+      <li>يظهر زر صغير "✕ إلغاء" بجانبه لمدة دقيقة كاملة، في حال الضغط بالخطأ.</li>
+      <li>إذا كان هناك دواء <strong>"قبل الفطور"</strong>، يظهر تنبيهه فوراً.</li>
+      <li>إذا كان هناك دواء <strong>"بعد الفطور"</strong>، يُجدَّل تنبيهه بعد الوقت الذي حددته (مثلاً بعد ٣٠ دقيقة).</li>
+      <li>يظهر علامة ✓ خضراء على الزر، ليعرف المستخدم أن الوجبة سُجِّلت.</li>
+    </ul>
+
+    <div class="note">
+      <strong>ملاحظة مهمة:</strong><br />
+      إذا نسي الجميع الضغط على زر الوجبة، يظهر تنبيه الدواء في <strong>الوقت الاحتياطي</strong> المحدد له. لن يُنسى الدواء.
+    </div>
+
+    <h2 id="alert">٥ — تنبيه الدواء</h2>
+    <p>عند وصول وقت الدواء تظهر شاشة كاملة فيها:</p>
+    <ul>
+      <li>أيقونة حبة دواء كبيرة 💊</li>
+      <li>عنوان: <strong>"حان وقت الدواء"</strong></li>
+      <li>الساعة</li>
+      <li>اسم الدواء</li>
+      <li>زر كبير: <strong>"تم ✓"</strong></li>
+    </ul>
+    <p>يصدر صوت تنبيه، ويهتز الجهاز إن كان يدعم الاهتزاز، ويُقرأ التنبيه بصوت عربي.</p>
+
+    <h3>متى ينتهي التنبيه؟</h3>
+    <p>اضغط "تم ✓". يتوقف الصوت ويُسجَّل أن الجرعة أُخِذت.</p>
+    <p>إذا لم يضغط أحد، يستمر الصوت بشكل متقطع كل بضع ثوانٍ حتى يتدخّل شخص ما.</p>
+
+    <h2 id="admin">٦ — القائمة المخفية (قائمة المشرف)</h2>
+    <p>للوصول إليها:</p>
+    <ol>
+      <li>المس الشاشة الرئيسية باستمرار لمدة <strong>٣ ثوانٍ</strong>.</li>
+      <li>يظهر شريط أزرق صغير في أسفل الشاشة يمتلئ تدريجياً.</li>
+      <li>بعد اكتماله، تُفتح قائمة المشرف.</li>
+    </ol>
+
+    <p><strong>محتويات القائمة:</strong></p>
+    <ul>
+      <li><strong>⚙️ الإعدادات</strong> — تعديل المواعيد، إضافة دواء جديد، أو تعديل الأدوية الحالية.</li>
+      <li><strong>🔄 إعادة ضبط جرعات اليوم</strong> — إذا أُخذ الدواء وأردت السماح بتنبيه جديد اليوم (لأغراض الاختبار).</li>
+      <li><strong>🍽️ حذف سجل وجبات اليوم</strong> — لحذف كل سجل الوجبات لهذا اليوم.</li>
+      <li><strong>📖 دليل الاستخدام</strong> — هذا الدليل.</li>
+      <li><strong>✖ إغلاق</strong> — إغلاق القائمة والعودة للساعة.</li>
+    </ul>
+
+    <h2 id="tips">٧ — نصائح للاستخدام اليومي</h2>
+    <ul>
+      <li><strong>ضع الجهاز في مكان ثابت وواضح</strong> — المطبخ أو غرفة الجلوس، حيث يراه المريض دائماً.</li>
+      <li><strong>لا تُخفِ الجهاز</strong> — الساعة نفسها علاج للمريض، حتى بدون تنبيهات.</li>
+      <li><strong>أخبر مقدّم الرعاية عن القائمة المخفية</strong> — لكن لا تُخبر المريض، حتى لا يعبث بالإعدادات.</li>
+      <li><strong>لا تُطفئ الجهاز</strong> — إذا أُطفئ، يتوقف التنبيه حتى يُشغَّل من جديد.</li>
+      <li><strong>لا يحتاج إنترنت</strong> — التطبيق يعمل بالكامل بدون اتصال، بعد أول تحميل.</li>
+    </ul>
+
+    <h2 id="example">٨ — إعداد دواء جديد — خطوة بخطوة</h2>
+    <p><strong>السيناريو:</strong> الدواء اسمه "حبة السكر"، يُؤخذ بعد الغداء بثلاثين دقيقة، والوقت الاحتياطي ٢:٠٠ بعد الظهر.</p>
+    <ol>
+      <li>من قائمة المشرف → <strong>⚙️ الإعدادات</strong>.</li>
+      <li>اضغط <strong>"＋ إضافة دواء"</strong>.</li>
+      <li>في خانة <strong>اسم الدواء</strong>: اكتب "حبة السكر".</li>
+      <li>في خانة <strong>نوع الموعد</strong>: اختر "بعد الغداء".</li>
+      <li>في خانة <strong>التأخير</strong>: اكتب ٣٠.</li>
+      <li>في خانة <strong>الوقت الاحتياطي</strong>: اختر ٢:٠٠ بعد الظهر.</li>
+      <li>اضغط <strong>"حفظ وبدء الساعة"</strong>.</li>
+    </ol>
+    <p>انتهى. الدواء الآن مدرَج في الجدول اليومي.</p>
+
+    <h2 id="faq">٩ — الأسئلة الشائعة</h2>
+
+    <p class="faq-q">س: الشاشة لا تتغير ألوانها.</p>
+    <p class="faq-a">ج: الألوان تتغير تلقائياً عند دخول كل فترة من فترات اليوم. إذا بقي الوقت في نفس الفترة، تبقى الألوان كما هي.</p>
+
+    <p class="faq-q">س: كيف أغيّر موعد دواء موجود؟</p>
+    <p class="faq-a">ج: افتح قائمة المشرف → الإعدادات → عدّل السطر → احفظ.</p>
+
+    <p class="faq-q">س: نسي مقدم الرعاية الضغط على زر الوجبة.</p>
+    <p class="faq-a">ج: لا مشكلة. سيظهر تنبيه الدواء في الوقت الاحتياطي.</p>
+
+    <p class="faq-q">س: ضغطت على زر الوجبة بالخطأ.</p>
+    <p class="faq-a">ج: اضغط على زر "✕ إلغاء" الذي يظهر بجانب الرسالة الخضراء لمدة دقيقة.</p>
+
+    <p class="faq-q">س: هل تُرسَل بيانات المريض إلى الإنترنت؟</p>
+    <p class="faq-a">ج: لا. كل شيء يُحفَظ على الجهاز فقط. التطبيق لا يتصل بأي جهة خارجية، ويعمل بالكامل بدون إنترنت.</p>
+
+    <p class="faq-q">س: هل يعمل التطبيق بدون إنترنت؟</p>
+    <p class="faq-a">ج: نعم، بالكامل. بعد أول تحميل، يعمل التطبيق حتى لو انقطع الاتصال.</p>
+
+    <hr />
+
+    <p style="text-align:center;color:var(--muted);font-size:0.95rem;">
+      نهاية الدليل — ساعة الدواء
+    </p>
+
+  </div>
+</body>
+</html>

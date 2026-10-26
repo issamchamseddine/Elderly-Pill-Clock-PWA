@@ -1,0 +1,618 @@
+/* =====================================================================
+   Pill Clock PWA — styles.css (complete)
+   Distinct phase backgrounds, Cairo font, Western numerals for clock.
+   ===================================================================== */
+
+/* ---------- Theme tokens (fallback / night) ---------- */
+:root {
+  --bg:      #05080f;
+  --fg:      #f5f7ff;
+  --muted:   #9aa4c4;
+  --accent:  #5b8dff;
+  --danger:  #ff5470;
+  --success: #4ade80;
+  --success-dark: #0d3b1e;
+  --card:    #0d1220;
+  --border:  #1a2338;
+}
+
+/* ---------- Day-phase themes (set via JS on <body>) ----------
+   Each phase uses a distinctly different hue AND brightness, so the
+   screen color alone tells the user what part of the day it is —
+   even from across a room or with reduced vision.
+*/
+body.phase-morning {
+  --bg: #2a4174;         /* clear, medium blue */
+  --fg: #f0f6ff;
+  --muted: #b6c9ee;
+  --accent: #a7cbff;
+  --card: #345088;
+  --border: #486ba8;
+}
+
+body.phase-noon {
+  --bg: #4a3d1e;         /* bright warm sand */
+  --fg: #fff7e2;
+  --muted: #e2c894;
+  --accent: #ffc75c;
+  --card: #5c4d28;
+  --border: #7a6638;
+}
+
+body.phase-afternoon {
+  --bg: #5a2d20;         /* rich terracotta */
+  --fg: #ffeee3;
+  --muted: #e8a894;
+  --accent: #ff9d6b;
+  --card: #6d3a2a;
+  --border: #8a4d38;
+}
+
+body.phase-evening {
+  --bg: #3a1f5c;         /* deep purple */
+  --fg: #f5ebff;
+  --muted: #c4ace0;
+  --accent: #c69bff;
+  --card: #4a2972;
+  --border: #613a91;
+}
+
+body.phase-night {
+  --bg: #05080f;         /* near-black navy */
+  --fg: #e6ebff;
+  --muted: #6b7794;
+  --accent: #4f8cff;
+  --card: #0d1220;
+  --border: #1a2338;
+}
+
+/* ---------- Reset ---------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Tahoma, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+  transition: background-color 1.5s ease, color 1.5s ease;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  text-align: center;
+}
+
+#clockScreen {
+  padding-bottom: 300px;
+}
+
+.hidden { display: none !important; }
+
+/* =====================================================================
+   Setup screen
+   ===================================================================== */
+.setup-card {
+  width: 100%;
+  max-width: 560px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px 22px;
+  text-align: right;
+  max-height: 92vh;
+  overflow-y: auto;
+}
+
+.setup-title { font-size: 2rem; margin-bottom: 6px; text-align: center; }
+.setup-sub   { color: var(--muted); text-align: center; margin-bottom: 22px; }
+
+.field { margin-bottom: 20px; }
+.field-label {
+  display: block; font-size: 1.1rem;
+  margin-bottom: 8px; font-weight: 600;
+}
+
+.input,
+.time-input,
+.label-input,
+.delay-input,
+.fallback-input,
+.type-select {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 2px solid var(--border);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--fg);
+  outline: none;
+  font-family: inherit;
+}
+.input:focus,
+.time-input:focus,
+.label-input:focus,
+.delay-input:focus,
+.fallback-input:focus,
+.type-select:focus { border-color: var(--accent); }
+
+.label-input.is-empty {
+  border-color: var(--danger);
+  background: rgba(255, 84, 112, 0.08);
+}
+
+.times-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.pill-row {
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pill-row-top {
+  display: grid;
+  grid-template-columns: 1.3fr 1.4fr auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.pill-row-fixed,
+.pill-row-meal {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.pill-row-fixed .time-input { flex: 1; }
+.pill-row-meal .delay-input { width: 90px; }
+.pill-row-meal .fallback-input { flex: 1; min-width: 120px; }
+
+.mini-label {
+  font-size: 0.9rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.remove-btn {
+  background: transparent;
+  border: 2px solid var(--danger);
+  color: var(--danger);
+  border-radius: 10px;
+  font-size: 1.1rem;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.remove-btn:active { transform: scale(0.95); }
+
+.hint { color: var(--muted); font-size: 0.9rem; margin-top: 6px; }
+
+.error {
+  color: var(--danger);
+  background: rgba(255, 84, 112, 0.1);
+  border: 1px solid var(--danger);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+/* =====================================================================
+   Buttons
+   ===================================================================== */
+.btn {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  font-family: inherit;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: transform 0.05s ease, background 0.15s ease;
+}
+.btn:active { transform: scale(0.98); }
+
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-ghost {
+  background: transparent;
+  color: var(--fg);
+  border: 2px solid var(--border);
+}
+
+/* =====================================================================
+   Clock screen
+   ===================================================================== */
+.date-line {
+  font-size: clamp(1.1rem, 3.5vw, 1.9rem);
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.phase-label {
+  font-size: clamp(2.4rem, 10vw, 6rem);
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 4px;
+  letter-spacing: 0.01em;
+  line-height: 1.05;
+  transition: color 1.5s ease;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+/* Clock digits — Western numerals, very bold, easy to read. */
+.clock-time {
+  font-size: clamp(4.5rem, 20vw, 15rem);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  direction: ltr;
+  transition: color 1.5s ease;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Next-pill descriptive message, pinned above the meal section. */
+.next-pill {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 185px;
+
+  margin: 0;
+  padding: 10px 22px;
+
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+
+  font-size: clamp(1.05rem, 3.2vw, 1.7rem);
+  font-weight: 700;
+  color: var(--fg);
+  opacity: 0.98;
+
+  max-width: 92vw;
+  line-height: 1.3;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  z-index: 15;
+
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.next-pill.is-empty {
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* =====================================================================
+   Meal section
+   ===================================================================== */
+.meal-section {
+  position: fixed;
+  bottom: 18px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  z-index: 20;
+}
+
+.meal-hint-bar {
+  width: 100%;
+  max-width: 640px;
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 8px 12px;
+  text-align: center;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.meal-hint-bar span {
+  font-size: clamp(0.85rem, 2.6vw, 1.05rem);
+  color: var(--fg);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  opacity: 0.95;
+}
+
+.meal-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 640px;
+  flex-wrap: nowrap;
+}
+
+.meal-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 12px 6px 10px;
+  font-family: inherit;
+  border-radius: 16px;
+  border: 2px solid var(--border);
+  background: var(--card);
+  color: var(--fg);
+  cursor: pointer;
+  transition: transform 0.05s ease,
+              background 0.15s ease,
+              border-color 0.15s ease,
+              box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 76px;
+  position: relative;
+  overflow: hidden;
+}
+
+.meal-btn:active {
+  transform: scale(0.97);
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.meal-btn.is-next {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.20),
+              0 0 22px var(--accent);
+}
+
+.meal-btn.is-late {
+  animation: mealPulse 2.6s ease-in-out infinite;
+  border-color: #ff8a28;
+}
+
+@keyframes mealPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 2px rgba(255, 138, 40, 0.20),
+                0 0 12px rgba(255, 138, 40, 0.30);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(255, 138, 40, 0.40),
+                0 0 26px rgba(255, 138, 40, 0.55);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .meal-btn.is-late { animation: none; }
+}
+
+.meal-emoji {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  line-height: 1;
+}
+
+.meal-name {
+  font-size: clamp(0.9rem, 3vw, 1.15rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.meal-check {
+  position: absolute;
+  top: 6px;
+  inset-inline-end: 6px;
+
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+
+  background: var(--success);
+  color: var(--success-dark);
+
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+  transform: scale(0.4);
+
+  transition: opacity 0.25s ease, transform 0.25s ease;
+
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(74, 222, 128, 0.45);
+}
+
+.meal-btn.is-logged .meal-check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.meal-btn.is-logged {
+  border-color: var(--success);
+}
+
+.meal-btn.is-logged .meal-name,
+.meal-btn.is-logged .meal-emoji {
+  opacity: 0.75;
+}
+
+/* ---------- Meal confirmation + undo ---------- */
+.meal-feedback {
+  position: fixed;
+  bottom: 118px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--success);
+  color: var(--success-dark);
+  padding: 10px 18px;
+  border-radius: 14px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  z-index: 30;
+  white-space: nowrap;
+}
+
+.meal-undo-btn {
+  background: rgba(0, 0, 0, 0.25);
+  color: inherit;
+  border: none;
+  border-radius: 10px;
+  padding: 6px 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.meal-undo-btn:active { transform: scale(0.96); }
+
+/* ---------- Long-press progress bar ---------- */
+.press-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 6px;
+  width: 0;
+  background: var(--accent);
+  transition: width 0.05s linear;
+  z-index: 50;
+}
+
+/* =====================================================================
+   Overlays (alert + admin)
+   ===================================================================== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 8, 15, 0.96);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  z-index: 100;
+}
+
+.alert-card,
+.admin-card {
+  width: 100%;
+  max-width: 460px;
+  background: var(--card);
+  border: 2px solid var(--accent);
+  border-radius: 24px;
+  padding: 32px 24px;
+  text-align: center;
+  max-height: 92vh;
+  overflow-y: auto;
+}
+
+.admin-card { border-color: var(--border); }
+
+.alert-icon { font-size: 5rem; margin-bottom: 12px; line-height: 1; }
+.alert-title { font-size: 2rem; margin-bottom: 16px; }
+.alert-time {
+  font-size: 3.5rem;
+  font-weight: 800;
+  direction: ltr;
+  margin-bottom: 8px;
+  font-variant-numeric: tabular-nums;
+}
+.alert-label {
+  font-size: 1.3rem;
+  color: var(--muted);
+  margin-bottom: 24px;
+  min-height: 1.4em;
+}
+
+.admin-title { font-size: 1.6rem; margin-bottom: 20px; }
+.admin-status {
+  margin-top: 16px;
+  color: var(--muted);
+  min-height: 1.2em;
+  font-size: 1rem;
+}
+
+/* =====================================================================
+   Responsive tweaks
+   ===================================================================== */
+@media (max-width: 480px) {
+  .setup-card { padding: 22px 16px; }
+  .setup-title { font-size: 1.6rem; }
+
+  .pill-row-top { grid-template-columns: 1fr 1fr auto; }
+  .pill-row-meal { gap: 6px; }
+
+  .alert-card, .admin-card { padding: 26px 18px; }
+  .alert-icon { font-size: 4rem; }
+  .alert-title { font-size: 1.6rem; }
+  .alert-time { font-size: 2.8rem; }
+
+  .meal-btn { padding: 12px 8px; min-height: 54px; }
+  .meal-feedback { font-size: 1rem; padding: 10px 16px; bottom: 90px; }
+
+  .meal-check { width: 22px; height: 22px; font-size: 0.9rem; top: 4px; inset-inline-end: 4px; }
+
+  #clockScreen { padding-bottom: 290px; }
+  .next-pill   { bottom: 170px; padding: 8px 18px; }
+}
+
+@media (max-height: 720px) {
+  .clock-time { font-size: clamp(3.5rem, 16vw, 10rem); }
+  .phase-label { font-size: clamp(2rem, 8vw, 4.5rem); }
+
+  #clockScreen { padding-bottom: 280px; }
+  .next-pill   { bottom: 165px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
