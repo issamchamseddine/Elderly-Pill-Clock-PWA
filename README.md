@@ -4,6 +4,10 @@
   <strong>⚡ AI-Orchestrated &nbsp;·&nbsp; 🎯 Problem-led &nbsp;·&nbsp; 🚀 Shipped</strong>
 </p>
 
+<p align="center">
+  <strong>🔗 <a href="https://elderly-pill-clock-pwa.vercel.app">Try the live app here</a></strong>
+</p>
+
 > An elderly-friendly, Arabic-first Progressive Web App that tells the user
 > **what time of day it is** and reminds them to take their medication  -
 > designed for people living with Alzheimer's and their caregivers.
