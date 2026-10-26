@@ -517,87 +517,97 @@ body {
 }
 
 /* =====================================================================
-   Landscape / Tablet View
+   Landscape / Tablet View (Side-by-Side Layout)
    ===================================================================== */
 @media (orientation: landscape) {
-  /* Reset the bottom padding so we can use Flexbox */
+  /* Make the screen a two-column grid */
   #clockScreen {
-    padding: 16px 32px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    padding: 24px;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr; /* 65% for clock, 35% for meals */
+    grid-template-rows: 1fr auto auto;
+    gap: 16px 32px; /* row-gap, column-gap */
     align-items: center;
+    justify-items: center;
+    overflow: hidden;
   }
 
-  /* Group date and phase at the top */
+  /* --- LEFT COLUMN (The Clock) --- */
+
+  /* Date and Phase move to the top of the left column */
   .date-line {
-    font-size: clamp(1rem, 2.5vw, 1.8rem);
-    margin-bottom: 2px;
-  }
-
-  .phase-label {
-    font-size: clamp(2rem, 5vw, 4.5rem);
+    grid-column: 1;
+    grid-row: 1;
+    align-self: end; /* Push down to touch the clock */
+    font-size: clamp(1.2rem, 3vw, 2.2rem);
     margin-bottom: 0;
-    line-height: 1;
   }
 
-  /* Make the clock huge but safe for short landscape screens */
+  /* The massive clock */
   .clock-time {
-    font-size: clamp(5rem, 28vh, 14rem);
-    line-height: 0.9;
-    margin: 4px 0;
+    grid-column: 1;
+    grid-row: 2;
+    align-self: start; /* Pull up to touch the date */
+    font-size: clamp(8rem, 32vh, 25rem); /* Maintain massive size */
+    line-height: 0.85;
+    margin: 0;
   }
 
-  /* Next pill pill-shaped badge */
+  /* --- RIGHT COLUMN (The Controls) --- */
+
+  /* Next pill sits at the top of the right column */
   .next-pill {
+    grid-column: 2;
+    grid-row: 1;
     position: static;
     transform: none;
-    margin: 0 0 12px 0;
-    font-size: clamp(1rem, 2.2vw, 1.5rem);
-    padding: 6px 18px;
+    align-self: end;
+    margin: 0;
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    padding: 8px 16px;
+    max-width: 100%;
+    white-space: normal; /* Allow wrapping if long */
   }
 
-  /* Meal section moves to normal flow at the bottom of the flex container */
+  /* Meals stack vertically on the right */
   .meal-section {
+    grid-column: 2;
+    grid-row: 2 / span 2; /* Span down to align with the clock */
     position: static;
     width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
+    max-width: 400px;
+    margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
   }
 
+  .meal-hint-bar {
+    padding: 6px 10px;
+    margin-bottom: 4px;
+  }
+
+  /* Make the meal buttons a 2x2 grid to save vertical space */
   .meal-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
     max-width: 100%;
-    gap: 12px;
   }
 
   .meal-btn {
-    min-height: 64px;
-    flex-direction: row;
-    gap: 10px;
+    min-height: 70px; /* Generous tap target */
+    flex-direction: column; /* Emoji above text */
+    gap: 4px;
     padding: 12px;
   }
 
-  .meal-emoji { font-size: 1.6rem; }
-  .meal-name { font-size: 1.2rem; }
+  .meal-emoji { font-size: 1.8rem; }
+  .meal-name { font-size: 1.1rem; }
   
-  .meal-hint-bar {
-    max-width: 100%;
-    margin-bottom: 4px;
-    padding: 4px 12px;
-  }
-
   .meal-feedback {
-    bottom: 90px;
+    bottom: 24px; /* Move to bottom center in landscape */
   }
-}
-
-/* Extra safety for very short landscape screens (phones in landscape) */
-@media (orientation: landscape) and (max-height: 450px) {
-  .clock-time { font-size: clamp(4rem, 22vh, 8rem); }
-  .phase-label { font-size: clamp(1.5rem, 4vw, 2.5rem); }
-  .meal-btn { min-height: 50px; padding: 8px; }
-  .meal-emoji { font-size: 1.3rem; }
-  .meal-name { font-size: 1rem; }
-  .next-pill { margin-bottom: 8px; font-size: 0.9rem; }
 }
