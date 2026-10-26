@@ -2,7 +2,7 @@
    Pill Clock PWA — sw.js
    ===================================================================== */
 
-const CACHE_NAME = 'pill-clock-v20';
+const CACHE_NAME = 'pill-clock-v21';
 
 const ASSETS_TO_CACHE = [
   './',
