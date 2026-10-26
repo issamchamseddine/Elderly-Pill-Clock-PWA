@@ -2,7 +2,7 @@
    Pill Clock PWA — sw.js
    ===================================================================== */
 
-const CACHE_NAME = 'pill-clock-v19';
+const CACHE_NAME = 'pill-clock-v20';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -39,14 +39,11 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const { request } = event;
-
   if (request.method !== 'GET') return;
 
   const url = new URL(request.url);
-
   const isSameOrigin = url.origin === self.location.origin;
-  const isGoogleFont = url.hostname === 'fonts.googleapis.com' ||
-                       url.hostname === 'fonts.gstatic.com';
+  const isGoogleFont = url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com';
 
   if (!isSameOrigin && !isGoogleFont) return;
 

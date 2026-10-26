@@ -9,9 +9,9 @@
   "id": "/pill-clock/",
   "display": "standalone",
   "display_override": ["standalone", "fullscreen"],
-  "orientation": "portrait",
-  "background_color": "#070a14",
-  "theme_color": "#070a14",
+  "orientation": "any",
+  "background_color": "#0a0f1f",
+  "theme_color": "#0a0f1f",
   "categories": ["health", "medical", "lifestyle"],
   "icons": [
     {

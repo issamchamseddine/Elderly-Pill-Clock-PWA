@@ -1,6 +1,5 @@
 /* =====================================================================
    Pill Clock PWA — styles.css (complete)
-   Distinct phase backgrounds, Cairo font, Western numerals for clock.
    ===================================================================== */
 
 /* ---------- Theme tokens (fallback / night) ---------- */
@@ -16,54 +15,26 @@
   --border:  #1a2338;
 }
 
-/* ---------- Day-phase themes (set via JS on <body>) ----------
-   Each phase uses a distinctly different hue AND brightness, so the
-   screen color alone tells the user what part of the day it is —
-   even from across a room or with reduced vision.
-*/
+/* ---------- Day-phase themes (set via JS on <body>) ---------- */
 body.phase-morning {
-  --bg: #2a4174;         /* clear, medium blue */
-  --fg: #f0f6ff;
-  --muted: #b6c9ee;
-  --accent: #a7cbff;
-  --card: #345088;
-  --border: #486ba8;
+  --bg: #2a4174; --fg: #f0f6ff; --muted: #b6c9ee;
+  --accent: #a7cbff; --card: #345088; --border: #486ba8;
 }
-
 body.phase-noon {
-  --bg: #4a3d1e;         /* bright warm sand */
-  --fg: #fff7e2;
-  --muted: #e2c894;
-  --accent: #ffc75c;
-  --card: #5c4d28;
-  --border: #7a6638;
+  --bg: #4a3d1e; --fg: #fff7e2; --muted: #e2c894;
+  --accent: #ffc75c; --card: #5c4d28; --border: #7a6638;
 }
-
 body.phase-afternoon {
-  --bg: #5a2d20;         /* rich terracotta */
-  --fg: #ffeee3;
-  --muted: #e8a894;
-  --accent: #ff9d6b;
-  --card: #6d3a2a;
-  --border: #8a4d38;
+  --bg: #5a2d20; --fg: #ffeee3; --muted: #e8a894;
+  --accent: #ff9d6b; --card: #6d3a2a; --border: #8a4d38;
 }
-
 body.phase-evening {
-  --bg: #3a1f5c;         /* deep purple */
-  --fg: #f5ebff;
-  --muted: #c4ace0;
-  --accent: #c69bff;
-  --card: #4a2972;
-  --border: #613a91;
+  --bg: #3a1f5c; --fg: #f5ebff; --muted: #c4ace0;
+  --accent: #c69bff; --card: #4a2972; --border: #613a91;
 }
-
 body.phase-night {
-  --bg: #05080f;         /* near-black navy */
-  --fg: #e6ebff;
-  --muted: #6b7794;
-  --accent: #4f8cff;
-  --card: #0d1220;
-  --border: #1a2338;
+  --bg: #05080f; --fg: #e6ebff; --muted: #6b7794;
+  --accent: #4f8cff; --card: #0d1220; --border: #1a2338;
 }
 
 /* ---------- Reset ---------- */
@@ -276,7 +247,6 @@ body {
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
 }
 
-/* Clock digits — Western numerals, very bold, easy to read. */
 .clock-time {
   font-size: clamp(4.5rem, 20vw, 15rem);
   font-weight: 800;
@@ -288,34 +258,27 @@ body {
   font-feature-settings: "tnum" 1;
 }
 
-/* Next-pill descriptive message, pinned above the meal section. */
 .next-pill {
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
   bottom: 185px;
-
   margin: 0;
   padding: 10px 22px;
-
   background: rgba(0, 0, 0, 0.28);
   border: 1px solid var(--border);
   border-radius: 999px;
-
   font-size: clamp(1.05rem, 3.2vw, 1.7rem);
   font-weight: 700;
   color: var(--fg);
   opacity: 0.98;
-
   max-width: 92vw;
   line-height: 1.3;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
   z-index: 15;
-
   transition: background 0.3s ease, border-color 0.3s ease;
 }
 
@@ -379,10 +342,7 @@ body {
   background: var(--card);
   color: var(--fg);
   cursor: pointer;
-  transition: transform 0.05s ease,
-              background 0.15s ease,
-              border-color 0.15s ease,
-              box-shadow 0.2s ease;
+  transition: transform 0.05s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -402,8 +362,7 @@ body {
 
 .meal-btn.is-next {
   border-color: var(--accent);
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.20),
-              0 0 22px var(--accent);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.20), 0 0 22px var(--accent);
 }
 
 .meal-btn.is-late {
@@ -412,72 +371,42 @@ body {
 }
 
 @keyframes mealPulse {
-  0%, 100% {
-    box-shadow: 0 0 0 2px rgba(255, 138, 40, 0.20),
-                0 0 12px rgba(255, 138, 40, 0.30);
-  }
-  50% {
-    box-shadow: 0 0 0 4px rgba(255, 138, 40, 0.40),
-                0 0 26px rgba(255, 138, 40, 0.55);
-  }
+  0%, 100% { box-shadow: 0 0 0 2px rgba(255, 138, 40, 0.20), 0 0 12px rgba(255, 138, 40, 0.30); }
+  50% { box-shadow: 0 0 0 4px rgba(255, 138, 40, 0.40), 0 0 26px rgba(255, 138, 40, 0.55); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .meal-btn.is-late { animation: none; }
 }
 
-.meal-emoji {
-  font-size: clamp(1.5rem, 5vw, 2rem);
-  line-height: 1;
-}
-
-.meal-name {
-  font-size: clamp(0.9rem, 3vw, 1.15rem);
-  font-weight: 700;
-  line-height: 1.1;
-}
+.meal-emoji { font-size: clamp(1.5rem, 5vw, 2rem); line-height: 1; }
+.meal-name { font-size: clamp(0.9rem, 3vw, 1.15rem); font-weight: 700; line-height: 1.1; }
 
 .meal-check {
   position: absolute;
   top: 6px;
   inset-inline-end: 6px;
-
   width: 26px;
   height: 26px;
   border-radius: 50%;
-
   background: var(--success);
   color: var(--success-dark);
-
   font-size: 1rem;
   font-weight: 900;
   line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-
   opacity: 0;
   transform: scale(0.4);
-
   transition: opacity 0.25s ease, transform 0.25s ease;
-
   pointer-events: none;
   box-shadow: 0 2px 8px rgba(74, 222, 128, 0.45);
 }
 
-.meal-btn.is-logged .meal-check {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.meal-btn.is-logged {
-  border-color: var(--success);
-}
-
-.meal-btn.is-logged .meal-name,
-.meal-btn.is-logged .meal-emoji {
-  opacity: 0.75;
-}
+.meal-btn.is-logged .meal-check { opacity: 1; transform: scale(1); }
+.meal-btn.is-logged { border-color: var(--success); }
+.meal-btn.is-logged .meal-name, .meal-btn.is-logged .meal-emoji { opacity: 0.75; }
 
 /* ---------- Meal confirmation + undo ---------- */
 .meal-feedback {
@@ -510,7 +439,6 @@ body {
   font-family: inherit;
   cursor: pointer;
 }
-
 .meal-undo-btn:active { transform: scale(0.96); }
 
 /* ---------- Long-press progress bar ---------- */
@@ -556,63 +484,110 @@ body {
 
 .alert-icon { font-size: 5rem; margin-bottom: 12px; line-height: 1; }
 .alert-title { font-size: 2rem; margin-bottom: 16px; }
-.alert-time {
-  font-size: 3.5rem;
-  font-weight: 800;
-  direction: ltr;
-  margin-bottom: 8px;
-  font-variant-numeric: tabular-nums;
-}
-.alert-label {
-  font-size: 1.3rem;
-  color: var(--muted);
-  margin-bottom: 24px;
-  min-height: 1.4em;
-}
-
+.alert-time { font-size: 3.5rem; font-weight: 800; direction: ltr; margin-bottom: 8px; font-variant-numeric: tabular-nums; }
+.alert-label { font-size: 1.3rem; color: var(--muted); margin-bottom: 24px; min-height: 1.4em; }
 .admin-title { font-size: 1.6rem; margin-bottom: 20px; }
-.admin-status {
-  margin-top: 16px;
-  color: var(--muted);
-  min-height: 1.2em;
-  font-size: 1rem;
-}
+.admin-status { margin-top: 16px; color: var(--muted); min-height: 1.2em; font-size: 1rem; }
 
 /* =====================================================================
-   Responsive tweaks
+   Responsive tweaks (Portrait Mobile)
    ===================================================================== */
 @media (max-width: 480px) {
   .setup-card { padding: 22px 16px; }
   .setup-title { font-size: 1.6rem; }
-
   .pill-row-top { grid-template-columns: 1fr 1fr auto; }
   .pill-row-meal { gap: 6px; }
-
   .alert-card, .admin-card { padding: 26px 18px; }
   .alert-icon { font-size: 4rem; }
   .alert-title { font-size: 1.6rem; }
   .alert-time { font-size: 2.8rem; }
-
   .meal-btn { padding: 12px 8px; min-height: 54px; }
   .meal-feedback { font-size: 1rem; padding: 10px 16px; bottom: 90px; }
-
   .meal-check { width: 22px; height: 22px; font-size: 0.9rem; top: 4px; inset-inline-end: 4px; }
-
   #clockScreen { padding-bottom: 290px; }
   .next-pill   { bottom: 170px; padding: 8px 18px; }
 }
 
-@media (max-height: 720px) {
+/* Short screens (Laptops in portrait, small tablets) */
+@media (max-height: 720px) and (orientation: portrait) {
   .clock-time { font-size: clamp(3.5rem, 16vw, 10rem); }
   .phase-label { font-size: clamp(2rem, 8vw, 4.5rem); }
-
   #clockScreen { padding-bottom: 280px; }
   .next-pill   { bottom: 165px; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
-    animation: none !important;
+/* =====================================================================
+   Landscape / Tablet View
+   ===================================================================== */
+@media (orientation: landscape) {
+  /* Make the clock massive and spread things out horizontally */
+  #clockScreen {
+    padding-bottom: 20px; /* Reset bottom padding */
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 1fr;
+    align-items: center;
+    justify-items: center;
+    padding: 24px 48px;
+  }
+
+  /* Group date and phase at the top */
+  .date-line {
+    font-size: clamp(1.2rem, 3vw, 2.2rem);
+    margin-bottom: 4px;
+  }
+
+  .phase-label {
+    font-size: clamp(3rem, 8vw, 7rem);
+    margin-bottom: 0;
+  }
+
+  /* Make the clock take as much vertical room as possible */
+  .clock-time {
+    font-size: clamp(8rem, 32vh, 25rem); /* Uses viewport height to scale */
+    line-height: 0.9;
+    margin: 0;
+  }
+
+  /* Move the next pill line to the bottom, just above the meals */
+  .next-pill {
+    position: static; /* Remove fixed positioning */
+    transform: none;
+    margin: 10px auto 20px auto;
+    bottom: auto;
+    font-size: clamp(1.2rem, 2.5vw, 2rem);
+  }
+
+  /* Spread the meal section wider */
+  .meal-section {
+    position: static;
+    width: 100%;
+    max-width: 900px; /* Wider on tablets */
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .meal-row {
+    max-width: 100%;
+    gap: 16px;
+  }
+
+  .meal-btn {
+    min-height: 90px;
+    flex-direction: row; /* Put emoji and text side-by-side in landscape */
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .meal-emoji { font-size: 2rem; }
+  .meal-name { font-size: 1.4rem; }
+  
+  .meal-hint-bar {
+    max-width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .meal-feedback {
+    bottom: 130px;
   }
 }
