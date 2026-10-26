@@ -1,9 +1,8 @@
 /* =====================================================================
    Pill Clock PWA — sw.js
-   Caches all core assets + Google Fonts for full offline use.
    ===================================================================== */
 
-const CACHE_NAME = 'pill-clock-v18';
+const CACHE_NAME = 'pill-clock-v19';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -13,11 +12,9 @@ const ASSETS_TO_CACHE = [
   './manifest.json',
   './icon.svg',
   './help.html',
-  /* Google Fonts — cached so the app works offline after first load */
   'https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap',
 ];
 
-/* ---------- Install: pre-cache all assets ---------- */
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -26,7 +23,6 @@ self.addEventListener('install', (event) => {
   );
 });
 
-/* ---------- Activate: clean up old caches ---------- */
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys()
@@ -41,7 +37,6 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-/* ---------- Fetch: cache-first, network fallback ---------- */
 self.addEventListener('fetch', (event) => {
   const { request } = event;
 

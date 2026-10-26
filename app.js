@@ -1,7 +1,6 @@
 /* =====================================================================
    Pill Clock PWA — app.js
-   (descriptive next-pill message, required medicine name,
-    Western numerals, no webhook — fully offline)
+   (added skip button logic)
    ===================================================================== */
 
 /* ---------- Storage keys ---------- */
@@ -12,7 +11,7 @@ const STORAGE = {
   CONFIG:   'configExists',
 };
 
-/* ---------- Arabic digits (still used for durations) ---------- */
+/* ---------- Arabic digits ---------- */
 const AR_DIGITS = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
 function toArabicDigits(str) {
   return String(str).replace(/\d/g, d => AR_DIGITS[+d]);
@@ -83,6 +82,7 @@ const clockScreen     = document.getElementById('clockScreen');
 const timesList       = document.getElementById('timesList');
 const addTimeBtn      = document.getElementById('addTimeBtn');
 const saveBtn         = document.getElementById('saveBtn');
+const skipBtn         = document.getElementById('skipBtn');
 const backBtn         = document.getElementById('backBtn');
 const setupError      = document.getElementById('setupError');
 
@@ -257,6 +257,12 @@ saveBtn.addEventListener('click', () => {
   goToClock();
 });
 
+skipBtn.addEventListener('click', () => {
+  schedule = [];
+  saveConfig(); // Saves an empty schedule so it doesn't ask again on reload
+  goToClock();
+});
+
 function showSetupError(msg) {
   setupError.textContent = msg;
   setupError.classList.remove('hidden');
@@ -303,7 +309,6 @@ function arabicDate(d) {
   } catch { return d.toDateString(); }
 }
 
-/* Clock: Western digits, 12-hour, no AM/PM marker. */
 function format12Hour(date) {
   const h24 = date.getHours();
   let h12 = h24 % 12;
@@ -328,9 +333,6 @@ function doseKey(pill, mealTs = null) {
   return `${pill.type}:${mealTs || 'fallback'}`;
 }
 
-/* =====================================================================
-   Descriptive message for the next pill
-   ===================================================================== */
 function describeNextPill(next, now) {
   if (!next) return { text: NO_PILLS_TEXT, empty: true };
 
@@ -809,6 +811,9 @@ if ('serviceWorker' in navigator) {
 function init() {
   const hasConfig = loadConfig();
   if (hasConfig && schedule.length) {
+    goToClock();
+  } else if (hasConfig) {
+    // User clicked "Skip" previously. Go straight to clock.
     goToClock();
   } else {
     goToSetup(false);
